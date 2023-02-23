@@ -1,0 +1,105 @@
+# Travis-CI build scripts
+
+language: cpp
+os: linux
+dist: bionic
+
+jobs:
+  include:
+# gcc 7.x, Debug 
+    - env: CMAKE_CC="gcc-7" CMAKE_CXX="g++-7" BUILD_TYPE="Debug" MATRIX_EVAL="CC=gcc-7 && CXX=g++-7 && OMP_NUM_THREADS=4"
+      os: linux
+      addons:
+        apt:
+          packages:
+            - g++-7
+            - libgoogle-perftools-dev
+            - libomp-dev
+            - libopenmpi-dev
+            - openmpi-bin
+
+# gcc 8.x, Debug
+    - env: CMAKE_CC="gcc-8" CMAKE_CXX="g++-8" BUILD_TYPE="Debug" MATRIX_EVAL="CC=gcc-8 && CXX=g++-8 && OMP_NUM_THREADS=4"
+      os: linux
+      addons:
+        apt:
+          packages:
+            - g++-8
+            - libgoogle-perftools-dev
+            - libomp-dev
+            - libopenmpi-dev
+            - openmpi-bin
+            
+# clang++-6, Debug
+    - env: CMAKE_CC="clang-8" CMAKE_CXX="clang++-8" BUILD_TYPE="Debug" MATRIX_EVAL="CC=clang-8 && CXX=clang++-8 && OMP_NUM_THREADS=4"
+      os: linux
+      addons:
+        apt:
+          packages:
+            - clang-8
+            - libgoogle-perftools-dev
+            - libomp-dev
+            - libopenmpi-dev
+            - openmpi-bin
+
+# gcc 7.x, Release
+    - env: CMAKE_CC="gcc-7" CMAKE_CXX="g++-7" BUILD_TYPE="Release" MATRIX_EVAL="CC=gcc-7 && CXX=g++-7 && OMP_NUM_THREADS=4"
+      os: linux
+      addons:
+        apt:
+          packages:
+            - g++-7
+            - libgoogle-perftools-dev
+            - libomp-dev
+            - libopenmpi-dev
+            - openmpi-bin
+
+# gcc 8.x, Release
+    - env: CMAKE_CC="gcc-8" CMAKE_CXX="g++-8" BUILD_TYPE="Release" MATRIX_EVAL="CC=gcc-8 && CXX=g++-8 && OMP_NUM_THREADS=4"
+      os: linux
+      addons:
+        apt:
+          packages:
+            - g++-8
+            - libgoogle-perftools-dev
+            - libomp-dev
+            - libopenmpi-dev
+            - openmpi-bin
+
+# clang++-6, Release
+    - env: CMAKE_CC="clang-8" CMAKE_CXX="clang++-8" BUILD_TYPE="Release" MATRIX_EVAL="CC=clang-8 && CXX=clang++-8 && OMP_NUM_THREADS=4"
+      os: linux
+      addons:
+        apt:
+          packages:
+            - clang-8
+            - libgoogle-perftools-dev
+            - libomp-dev
+            - libopenmpi-dev
+            - openmpi-bin
+
+before_install:
+    - eval "${MATRIX_EVAL}"
+
+before_script:
+  # print out some version numbers
+  - $CMAKE_CXX --version
+  - cmake --version
+
+  # configure
+  - mkdir build; cd build
+  - cmake -DCMAKE_BUILD_TYPE="$BUILD_TYPE" -DCMAKE_C_COMPILER="$CMAKE_CC"
+    -DCMAKE_CXX_COMPILER="$CMAKE_CXX" ..
+
+script:
+  - make
+  - ctest
+      -DCTEST_SITE:STRING="travis-$TRAVIS_REPO_SLUG"
+      -DCTEST_BUILD_NAME:STRING="$TRAVIS_OS_NAME-$CMAKE_CC-$BUILD_TYPE" -VV
+
+notifications:
+  email:
+    recipients: alexander.noe@univie.ac.at
+    on_success: change
+    on_failure: always
+
