@@ -1,6 +1,3 @@
-[submodule "VieCut"]
-	path = VieCut
-	url = https://github.com/VieCut/VieCut.git
 [submodule "extern/pybind11"]
 	path = extern/pybind11
 	url = ../../pybind/pybind11
