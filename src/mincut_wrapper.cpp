@@ -21,6 +21,11 @@
 #include "tools/string.h"
 #include "tools/timer.h"
 
+#include <pybind11/pybind11.h>
+#include <pybind11/stl.h>
+
+namespace py = pybind11;
+
 // typedef graph_access graph_type;
 typedef mutable_graph graph_type;
 typedef std::shared_ptr<graph_type> GraphPtr;
@@ -71,3 +76,13 @@ MincutResult mincut(std::string graph_filename, std::string algorithm, std::stri
 int main(int argn, char** argv) {
     std::cout << "Hello World!" << std::endl;
 } 
+
+PYBIND11_MODULE(mincut, handle) {
+    handle.doc() = "This is the module docs.";
+    handle.def("mincut", &mincut);
+
+    py::class_<MincutResult>(
+        handle, "MincutResult"
+    )
+    .def(py::init<std::vector<int>, std::vector<int>, int>());
+}
