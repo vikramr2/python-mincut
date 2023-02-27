@@ -76,7 +76,8 @@ endif()
 
 build_and_link(mincut)
 
+add_subdirectory(extern/pybind11)
+
 add_executable(mincut_wrapper src/mincut_wrapper.cpp)
 
-# add_subdirectory(extern/pybind11)
 # pybind11_add_module(mincut src/main.cpp)

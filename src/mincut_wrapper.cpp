@@ -21,6 +21,21 @@
 #include "tools/string.h"
 #include "tools/timer.h"
 
+// typedef graph_access graph_type;
+typedef mutable_graph graph_type;
+typedef std::shared_ptr<graph_type> GraphPtr;
+
+class MincutResult {
+    std::vector<int> light_partition;
+    std::vector<int> heavy_partition;
+    int cut_size;
+
+public:
+    MincutResult(std::vector<int> light_, 
+                 std::vector<int> heavy_,
+                 int cut_) : light_partition(light_), heavy_partition(heavy_), cut_size(cut_) {}
+};
+
 int main(int argn, char** argv) {
     std::cout << "Hello World!" << std::endl;
 } 
