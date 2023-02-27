@@ -7,6 +7,7 @@
 #include <memory>
 #include <string>
 #include <vector>
+#include <tuple>
 
 #include "algorithms/global_mincut/algorithms.h"
 #include "algorithms/global_mincut/minimum_cut.h"
@@ -43,6 +44,17 @@ public:
     std::vector<int> get_light_partition() { return light_partition; }
     std::vector<int> get_heavy_partition() { return heavy_partition; }
     int get_cut_size() { return cut_size; }
+};
+
+class CGraph {
+    std::vector<int> nodes;
+    std::vector<std::tuple<int, int> > edges;
+
+public:
+    CGraph(std::vector<int> nodes_, 
+           std::vector<std::tuple<int, int> > edges_) : nodes(nodes_), edges(edges_) {}
+    std::vector<int> get_nodes() { return nodes; }
+    std::vector<std::tuple<int, int> > get_edges() { return edges; }
 };
 
 MincutResult mincut(std::string graph_filename, std::string algorithm, std::string queue_type, bool balanced) {
@@ -98,4 +110,11 @@ PYBIND11_MODULE(mincut_wrapper, handle) {
     .def("get_light_partition", &MincutResult::get_light_partition)
     .def("get_heavy_partition", &MincutResult::get_heavy_partition)
     .def("get_cut_size", &MincutResult::get_cut_size);
+
+    py::class_<CGraph>(
+        handle, "CGraph"
+    )
+    .def(py::init<std::vector<int>, std::vector<std::tuple<int, int> > >())
+    .def("get_nodes", &CGraph::get_nodes)
+    .def("get_edges", &CGraph::get_edges);
 }
