@@ -36,6 +36,38 @@ public:
                  int cut_) : light_partition(light_), heavy_partition(heavy_), cut_size(cut_) {}
 };
 
+MincutResult mincut(std::string graph_filename, std::string algorithm, std::string queue_type, bool balanced) {
+    std::vector<int> light;
+    std::vector<int> heavy;
+
+    timer t;
+    GraphPtr G = graph_io::readGraphWeighted<graph_type>(
+        configuration::getConfig()->graph_filename);
+
+    timer tdegs;
+
+    random_functions::setSeed(0);
+
+    NodeID n = G->number_of_nodes();
+    EdgeID m = G->number_of_edges();
+
+    auto mc = selectMincutAlgorithm<GraphPtr>(algorithm);
+
+    t.restart();
+    EdgeWeight cut;
+    cut = mc->perform_minimum_cut(G);
+
+    for (NodeID node : G->nodes()) {
+        if (G->getNodeInCut(node)) {
+            light.push_back(node);
+        } else {
+            heavy.push_back(node);
+        }
+    }
+
+    return MincutResult(light, heavy, cut);
+}
+
 int main(int argn, char** argv) {
     std::cout << "Hello World!" << std::endl;
 } 

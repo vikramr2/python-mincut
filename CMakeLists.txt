@@ -79,5 +79,6 @@ build_and_link(mincut)
 add_subdirectory(extern/pybind11)
 
 add_executable(mincut_wrapper src/mincut_wrapper.cpp)
+target_link_libraries(mincut_wrapper PUBLIC ${LIBS} OpenMP::OpenMP_CXX)
 
 # pybind11_add_module(mincut src/main.cpp)
