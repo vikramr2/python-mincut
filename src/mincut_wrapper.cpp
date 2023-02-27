@@ -57,6 +57,12 @@ public:
     std::vector<std::tuple<int, int> > get_edges() { return edges; }
 };
 
+template <class Graph = graph_access>
+static std::shared_ptr<Graph> readGraphWeighted(CGraph g) {
+    std::shared_ptr<Graph> G = std::make_shared<Graph>();
+    return G;
+} 
+
 MincutResult mincut(std::string graph_filename, std::string algorithm, std::string queue_type, bool balanced) {
     auto cfg = configuration::getConfig();
     cfg->graph_filename = graph_filename;
