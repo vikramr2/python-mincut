@@ -60,12 +60,40 @@ public:
 template <class Graph = graph_access>
 static std::shared_ptr<Graph> readGraphWeighted(CGraph g) {
     std::shared_ptr<Graph> G = std::make_shared<Graph>();
+
+    std::vector<int> nodes = g.get_nodes();
+    std::vector<std::tuple<int, int> > edges = g.get_edges();
+
+    uint64_t nmbNodes = nodes.size();
+    uint64_t nmbEdges = edges.size();
+
+    NodeID node_counter = 0;
+    EdgeID edge_counter = 0;
+
+    G->start_construction(nmbNodes, nmbEdges);
+
+    for (int n : nodes) {
+        NodeID node = G->new_node();
+        node_counter++;
+        G->setPartitionIndex(node, 0);
+    }
+
+    for (std::tuple<int, int> edge : edges) {
+        NodeID u = std::get<0>(edge);
+        NodeID v = std::get<1>(edge);
+
+        G->new_edge(u, v, 1);
+    }
+
+    G->finish_construction();
+    G->computeDegrees();
+
     return G;
 } 
 
-MincutResult mincut(std::string graph_filename, std::string algorithm, std::string queue_type, bool balanced) {
+MincutResult mincut(CGraph CG, std::string algorithm, std::string queue_type, bool balanced) {
     auto cfg = configuration::getConfig();
-    cfg->graph_filename = graph_filename;
+    // cfg->graph_filename = graph_filename;
     cfg->algorithm = algorithm;
     cfg->queue_type = queue_type;
     cfg->find_most_balanced_cut = balanced;
@@ -75,7 +103,7 @@ MincutResult mincut(std::string graph_filename, std::string algorithm, std::stri
     std::vector<int> heavy;
 
     timer t;
-    GraphPtr G = graph_io::readGraphWeighted<graph_type>(graph_filename);
+    GraphPtr G = readGraphWeighted<graph_type>(CG);
 
     timer tdegs;
 
