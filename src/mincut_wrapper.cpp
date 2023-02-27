@@ -31,6 +31,13 @@ namespace py = pybind11;
 typedef mutable_graph graph_type;
 typedef std::shared_ptr<graph_type> GraphPtr;
 
+/** 
+ * Container for mincut output
+ * 
+ * @param light_partition the nodes on one side of the mincut
+ * @param heavy_partition the nodes on the other side of the mincut
+ * @param cut_size the number of edges in the cut
+ */
 class MincutResult {
     std::vector<int> light_partition;
     std::vector<int> heavy_partition;
@@ -46,6 +53,12 @@ public:
     int get_cut_size() { return cut_size; }
 };
 
+/**
+ * Container for the mincut input
+ * 
+ * @param nodes list of nodes, must be range from 0 to n (e.g. [0, 1, 2, 3 ... n])
+ * @param edges edges must contain values from node list
+ */
 class CGraph {
     std::vector<int> nodes;
     std::vector<std::tuple<int, int> > edges;
@@ -57,6 +70,9 @@ public:
     std::vector<std::tuple<int, int> > get_edges() { return edges; }
 };
 
+/**
+ * Loads VieCut mutable graph from CGraph object
+ */
 template <class Graph = graph_access>
 static std::shared_ptr<Graph> readGraphWeighted(CGraph g) {
     std::shared_ptr<Graph> G = std::make_shared<Graph>();
@@ -91,6 +107,12 @@ static std::shared_ptr<Graph> readGraphWeighted(CGraph g) {
     return G;
 } 
 
+/**
+ * Slightly modified snippet from VieCut/app/mincut.cpp that computes mincut
+ * 
+ * Rather than taking a METIS filepath as input, we take a CGraph
+ * Rather than storing output in a file, we store it in a MinCut object
+ */
 MincutResult mincut(CGraph CG, std::string algorithm, std::string queue_type, bool balanced) {
     auto cfg = configuration::getConfig();
     // cfg->graph_filename = graph_filename;
@@ -130,9 +152,12 @@ MincutResult mincut(CGraph CG, std::string algorithm, std::string queue_type, bo
 }
 
 PYBIND11_MODULE(mincut_wrapper, handle) {
-    handle.doc() = "This is the module docs.";
+    handle.doc() = "Mincut methods and it's objects used for input and output";
+
+    // Export mincut method to Python module as a method
     handle.def("mincut", &mincut);
 
+    // Export output class to Python module as an object
     py::class_<MincutResult>(
         handle, "MincutResult"
     )
@@ -141,6 +166,7 @@ PYBIND11_MODULE(mincut_wrapper, handle) {
     .def("get_heavy_partition", &MincutResult::get_heavy_partition)
     .def("get_cut_size", &MincutResult::get_cut_size);
 
+    // Export input class to Python module as an object
     py::class_<CGraph>(
         handle, "CGraph"
     )
