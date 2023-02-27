@@ -22,3 +22,13 @@ class Graph:
         cgraph_edges = list(map(lambda t: (self.nodes.index(t[0]), self.nodes.index(t[1])), self.edges))
 
         return CGraph(cgraph_nodes, cgraph_edges)
+
+    def mincut(self, algorithm, queue_implementation, balanced):
+        cg = self.as_CGraph()
+        mc = mincut(cg, algorithm, queue_implementation, balanced)
+
+        heavy = list(map(lambda t: self.nodes[t], mc.get_heavy_partition()))
+        light = list(map(lambda t: self.nodes[t], mc.get_light_partition()))
+        cut = mc.get_cut_size()
+
+        return heavy, light, cut
