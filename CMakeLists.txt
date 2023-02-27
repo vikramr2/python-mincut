@@ -11,24 +11,6 @@ include_directories(SYSTEM ${MPI_INCLUDE_PATH})
 
 OPTION(RUN_TESTS "Compile and run tests" ON)
 
-macro(bal_seq TARGETNAME)
-    set (SEQ_NAME "${TARGETNAME}") 
-    add_executable(${SEQ_NAME} extern/VieCut/app/${TARGETNAME}.cpp)
-    target_link_libraries(${SEQ_NAME} PUBLIC ${LIBS} OpenMP::OpenMP_CXX)
-endmacro(bal_seq)
-
-macro(bal_par TARGETNAME)
-    set (PAR_NAME "${TARGETNAME}_parallel")
-    add_executable(${PAR_NAME} extern/VieCut/app/${TARGETNAME}.cpp)
-    target_link_libraries(${PAR_NAME} PUBLIC ${LIBS} OpenMP::OpenMP_CXX)
-    target_compile_definitions(${PAR_NAME} PUBLIC -DPARALLEL)
-endmacro(bal_par)
-
-macro(build_and_link TARGETNAME)
-    bal_seq(${TARGETNAME})
-    bal_par(${TARGETNAME})
-endmacro(build_and_link)
-
 if(NOT CMAKE_BUILD_TYPE)
   message("Defaulting CMAKE_BUILD_TYPE to Release")
   set(CMAKE_BUILD_TYPE "Release")
@@ -73,8 +55,6 @@ set(LIBS ${EXTLIBS} ${Profiler_LIBRARIES} ${GUROBI_LIBRARIES})
 else()
 set(LIBS ${EXTLIBS} ${Tcmalloc_LIBRARIES} ${GUROBI_LIBRARIES})
 endif()
-
-build_and_link(mincut)
 
 add_subdirectory(extern/pybind11)
 

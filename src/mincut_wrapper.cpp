@@ -95,10 +95,6 @@ MincutResult mincut(std::string graph_filename, std::string algorithm, std::stri
     return MincutResult(light, heavy, cut);
 }
 
-int main(int argn, char** argv) {
-    std::cout << "Hello World!" << std::endl;
-} 
-
 PYBIND11_MODULE(mincut_wrapper, handle) {
     handle.doc() = "This is the module docs.";
     handle.def("mincut", &mincut);
