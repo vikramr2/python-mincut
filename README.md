@@ -15,7 +15,7 @@ Import the `Graph` object and compute mincut as a member function
 from graph import Graph
 
 nodes = # Arbitrary node list of any data type (e.g. [1, 2, 3], [1, 'a', 0.5], etc.)
-edges = # Edges are lists of 2-tuples (e.g. [(1, 2), (1, 3)], [(1, 'a'), (0.5, 1)], etc.)
+edges = # Edges are lists of 2-tuples (e.g. [(1, 2), (1, 3)], [(1, 'a'), (0.5, 1)], etc.). The elements in the tuples must be in the node list.
 
 G = Graph(nodes, edges)
 
