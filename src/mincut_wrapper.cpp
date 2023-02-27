@@ -39,6 +39,10 @@ public:
     MincutResult(std::vector<int> light_, 
                  std::vector<int> heavy_,
                  int cut_) : light_partition(light_), heavy_partition(heavy_), cut_size(cut_) {}
+
+    std::vector<int> get_light_partition() { return light_partition; }
+    std::vector<int> get_heavy_partition() { return heavy_partition; }
+    int get_cut_size() { return cut_size; }
 };
 
 MincutResult mincut(std::string graph_filename, std::string algorithm, std::string queue_type, bool balanced) {
@@ -46,8 +50,7 @@ MincutResult mincut(std::string graph_filename, std::string algorithm, std::stri
     std::vector<int> heavy;
 
     timer t;
-    GraphPtr G = graph_io::readGraphWeighted<graph_type>(
-        configuration::getConfig()->graph_filename);
+    GraphPtr G = graph_io::readGraphWeighted<graph_type>(graph_filename);
 
     timer tdegs;
 
@@ -77,12 +80,15 @@ int main(int argn, char** argv) {
     std::cout << "Hello World!" << std::endl;
 } 
 
-PYBIND11_MODULE(mincut, handle) {
+PYBIND11_MODULE(mincut_wrapper, handle) {
     handle.doc() = "This is the module docs.";
     handle.def("mincut", &mincut);
 
     py::class_<MincutResult>(
         handle, "MincutResult"
     )
-    .def(py::init<std::vector<int>, std::vector<int>, int>());
+    .def(py::init<std::vector<int>, std::vector<int>, int>())
+    .def("get_light_partition", &MincutResult::get_light_partition)
+    .def("get_heavy_partition", &MincutResult::get_heavy_partition)
+    .def("get_cut_size", &MincutResult::get_cut_size);
 }
