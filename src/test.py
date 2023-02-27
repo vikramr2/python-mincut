@@ -1,6 +1,6 @@
 import os
 import sys
-from Graph import Graph
+from graph import Graph
 sys.path.append('../build')
 from mincut_wrapper import *
 
