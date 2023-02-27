@@ -46,6 +46,13 @@ public:
 };
 
 MincutResult mincut(std::string graph_filename, std::string algorithm, std::string queue_type, bool balanced) {
+    auto cfg = configuration::getConfig();
+    cfg->graph_filename = graph_filename;
+    cfg->algorithm = algorithm;
+    cfg->queue_type = queue_type;
+    cfg->find_most_balanced_cut = balanced;
+    cfg->save_cut = true;
+
     std::vector<int> light;
     std::vector<int> heavy;
 
