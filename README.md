@@ -10,14 +10,14 @@ cmake .. && make
 cd ..
 ```
 ## Usage
-Import the `Graph` object and compute mincut as a member function
+Import the `PyGraph` object and compute mincut as a member function
 ```Python
-from graph import Graph
+from pygraph import PyGraph
 
 nodes = # Arbitrary node list of any data type (e.g. [1, 2, 3], [1, 'a', 0.5], etc.)
 edges = # Edges are lists of 2-tuples (e.g. [(1, 2), (1, 3)], [(1, 'a'), (0.5, 1)], etc.). The elements in the tuples must be in the node list.
 
-G = Graph(nodes, edges)
+G = PyGraph(nodes, edges)
 
 ''' Mincut Arguments
 
