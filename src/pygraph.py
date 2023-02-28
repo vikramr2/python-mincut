@@ -1,6 +1,6 @@
 import sys
 sys.path.append('../build')
-from mincut_wrapper import *
+from mincut_wrapper import CGraph, MincutResult, mincut
 
 class PyGraph:
     ''' Wrapper for CGraph to allow for generic node and edge lists
