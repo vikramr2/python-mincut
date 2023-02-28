@@ -1,5 +1,5 @@
 import os
-from graph import Graph
+from pygraph import PyGraph
 
 print(os.getcwd())
 
@@ -13,6 +13,6 @@ edges = [(0, 1), (0, 2), (0, 3), (0, 4), \
          (6, 4), (6, 5), (6, 8), \
          (8, 3), (8, 4), (8, 5), (8, 6)]
 
-G = Graph(nodes, edges)
+G = PyGraph(nodes, edges)
 
 print(G.mincut("noi", "bqueue", False))
