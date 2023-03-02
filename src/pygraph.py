@@ -13,6 +13,7 @@ class PyGraph:
     def __init__(self, nodes_=[], edges_=[]):
         self.nodes = nodes_
         self.edges = edges_
+        self.compact_map = {k: v for v, k in enumerate(nodes_)}
     
     def add_node(self, n):
         self.nodes.append(n)
@@ -27,7 +28,7 @@ class PyGraph:
     def as_CGraph(self):
         ''' Conversion to CGraph to be used for mincut computation '''
         cgraph_nodes = list(range(len(self.nodes)))
-        cgraph_edges = list(map(lambda t: (self.nodes.index(t[0]), self.nodes.index(t[1])), self.edges))
+        cgraph_edges = list(map(lambda t: (self.compact_map[t[0]], self.compact_map[t[1]]), self.edges))
 
         return CGraph(cgraph_nodes, cgraph_edges)
 
