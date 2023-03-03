@@ -1,6 +1,11 @@
 cmake_minimum_required(VERSION 3.9)
-set(CMAKE_C_COMPILER "/software/gcc-9.2.0/bin/gcc")
-set(CMAKE_CXX_COMPILER "/software/gcc-9.2.0/bin/g++")
+
+find_program(GCC NAMES gcc)
+find_program(GPP NAMES g++)
+
+
+set(CMAKE_CXX_COMPILER "${GPP}")
+set(CMAKE_C_COMPILER "${GCC}")
 project(python_mincut)
 
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_SOURCE_DIR}/cmake")
