@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.9)
+cmake_minimum_required(VERSION 3.2)
 
 find_program(GCC NAMES gcc)
 find_program(GPP NAMES g++)
