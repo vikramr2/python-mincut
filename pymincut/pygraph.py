@@ -1,6 +1,4 @@
-import sys
-
-from mincut_wrapper import CGraph, MincutResult, mincut
+from mincut_wrapper import CGraph, mincut
 
 
 class PyGraph:
