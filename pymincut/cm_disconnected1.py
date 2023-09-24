@@ -1,6 +1,15 @@
 from pygraph import PyGraph
 
+'''
+This case was originally failing in CM++, 
+so we're checking that this works
+'''
+
 def make_undir(edges):
+    ''' Add reverse edges as well into the graph 
+    
+    This will switch the graph from directed to undirected
+    '''
     undirected_edges = set()
 
     for edge in edges:
@@ -14,6 +23,7 @@ def make_undir(edges):
 
     return ret
 
+# Test case 1: regular unbalanced cut using NOI
 algo = 'noi'
 qimp = 'bqueue'
 balanced = False
@@ -47,6 +57,7 @@ print(G1.mincut(algo, qimp, balanced))
 
 print()
 
+# Test case 2: Balanced Cactus on a directed graph
 algo = 'cactus'
 balanced = True
 
@@ -58,13 +69,12 @@ print(G1.mincut(algo, qimp, balanced))
 
 print()
 
+# Test case 3: Balanced Cactus on an undirected graph
 cluster0_edges = make_undir(cluster0_edges)
 cluster1_edges = make_undir(cluster1_edges)
 
 G0 = PyGraph(cluster0_nodes, cluster0_edges)
 G1 = PyGraph(cluster1_nodes, cluster1_edges)
-
-print(cluster0_edges)
 
 print('Case 3: Make Edges truly undirected for Cactus')
 print('---')

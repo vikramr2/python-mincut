@@ -68,6 +68,56 @@ public:
            std::vector<std::tuple<int, int> > edges_) : nodes(nodes_), edges(edges_) {}
     std::vector<int> get_nodes() { return nodes; }
     std::vector<std::tuple<int, int> > get_edges() { return edges; }
+
+    /**
+     * Get the connected components of the graph
+     *
+     * @returns a list of node-sets of each connected component
+     */
+    std::vector<std::unordered_set<int> > connected_components() {
+        std::vector<std::vector<int> > adjList(nodes.size());
+        for (const auto& edge : edges) {
+            int u, v;
+            std::tie(u, v) = edge;
+            adjList[u].push_back(v);
+            adjList[v].push_back(u);
+        }
+
+        std::vector<bool> visited(nodes.size(), false);
+        std::vector<std::unordered_set<int> > components;
+
+        for (int i = 0; i < nodes.size(); ++i) {
+            if (!visited[i]) {
+                std::unordered_set<int> component;
+                DFS(i, adjList, visited, component);
+                components.push_back(component);
+            }
+        }
+
+        return components;
+    }
+
+private:
+    /**
+     * Depth first traversal of a graph component
+     *
+     * @param node the starting node of the DFS
+     * @param adjList the graph adjacency list
+     * @param visited list of already visited nodes
+     * @param component set of node-ids belonging to the component 
+     *
+     * DFS insertets nodes into the component set as it runs
+     */
+    void DFS(int node, const std::vector<std::vector<int>>& adjList, std::vector<bool>& visited, std::unordered_set<int>& component) {
+        visited[node] = true;
+        component.insert(node);
+
+        for (int neighbor : adjList[node]) {
+            if (!visited[neighbor]) {
+                DFS(neighbor, adjList, visited, component);
+            }
+        }
+    }
 };
 
 /**
@@ -172,5 +222,6 @@ PYBIND11_MODULE(mincut_wrapper, handle) {
     )
     .def(py::init<std::vector<int>, std::vector<std::tuple<int, int> > >())
     .def("get_nodes", &CGraph::get_nodes)
-    .def("get_edges", &CGraph::get_edges);
+    .def("get_edges", &CGraph::get_edges)
+    .def("connected_components", &CGraph::connected_components);
 }

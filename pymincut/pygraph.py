@@ -39,8 +39,15 @@ class PyGraph:
         cg = self.as_CGraph()
         mc = mincut(cg, algorithm, queue_implementation, balanced)
 
+        # Get the cut value
+        cut = mc.get_cut_size()
+
+        # Edge case handler, balanced Viecut-Cactus fails on disconnected graphs
+        if cut == 0 and balanced and algorithm == 'cactus':
+            return cg.connected_components() + [0]
+
+        # If not in the edge case, return the mincut partitions as normal
         heavy = list(map(lambda t: self.nodes[t], mc.get_heavy_partition()))
         light = list(map(lambda t: self.nodes[t], mc.get_light_partition()))
-        cut = mc.get_cut_size()
 
         return heavy, light, cut
