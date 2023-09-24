@@ -1,5 +1,5 @@
 import os
-from pygraph import PyGraph
+from pymincut.pygraph import PyGraph
 
 print(os.getcwd())
 

@@ -1,4 +1,4 @@
-from pygraph import PyGraph
+from pymincut.pygraph import PyGraph
 
 nodes = ['a', 'b', 'c', 'd']
 edges = []

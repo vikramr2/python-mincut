@@ -1,4 +1,4 @@
-from pygraph import PyGraph
+from pymincut.pygraph import PyGraph
 
 '''
 This case was originally failing in CM++, 
