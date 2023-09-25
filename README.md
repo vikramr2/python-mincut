@@ -2,6 +2,14 @@
 
 Python wrapper for [VieCut](https://github.com/VieCut/VieCut)
 
+- [python-mincut](#python-mincut)
+  - [Compilation](#compilation)
+    - [via `pip` install](#via-pip-install)
+    - [via Source Code](#via-source-code)
+  - [Usage](#usage)
+    - [Basic Usage](#basic-usage)
+    - [Balanced VieCut-Cactus Edge Case](#balanced-viecut-cactus-edge-case)
+
 ## Compilation
 
 ### via `pip` install
