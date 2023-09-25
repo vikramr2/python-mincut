@@ -1,22 +1,36 @@
 # python-mincut
-Python wrapper for VieCut (https://github.com/VieCut/VieCut)
+
+Python wrapper for [VieCut](https://github.com/VieCut/VieCut)
 
 ## Compilation
+
 ### via `pip` install
+
 Simply run
+
 ```bash
 pip install git+https://github.com/vikramr2/python-mincut
 ```
+
 ### via Source Code
+
 Clone the repository and run the following commands from the root of this project
+
 ```bash
 mkdir build
 cd build
 cmake .. && make
 cd ..
 ```
+
 ## Usage
+
 Import the `PyGraph` object and compute mincut as a member function
+
+### Basic Usage
+
+If you are using options that aren't `cactus` algorithm and `balanced=True` for mincut, you can do the following:
+
 ```Python
 from pymincut.pygraph import PyGraph
 
@@ -33,3 +47,30 @@ balanced (bool)            : is the mincut balanced?
 '''
 light_partition, heavy_partition, cut_size = G.mincut("noi", "bqueue", False)
 ```
+
+### Balanced VieCut-Cactus Edge Case
+
+If you would like balanced mincuts, it is suggested that you instead do the following:
+
+```Python
+from pymincut.pygraph import PyGraph
+
+nodes = [1, 2, 3, 4, 5]
+edges = [(1, 2), (1, 3), (4, 5)]
+
+G = PyGraph(nodes, edges)
+
+mincut_result = G.mincut("cactus", "bqueue", True)
+
+'''
+In the event that your graph has more than 
+two connected components, pymincut will return
+more than two partitions
+'''
+partitions = mincut_result[:-1]
+cut_size = mincut_result[-1]
+```
+
+If your options are set to `algorithm='cactus'` and `balanced=True`, your graph actually has a mincut of 0 (i.e. it is disconnected), and it has more than two connected components, `pymincut` wont just return a light and heavy partition. It will actually return **ALL** connected components of the graph along with a cut size of 0.
+  
+You can retrieve the mincut result information as done in the code above.
