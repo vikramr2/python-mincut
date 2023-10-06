@@ -141,7 +141,7 @@ class CMakeBuild(build_ext):
 # logic and declaration, and simpler if you include description/version in a file.
 setup(
     name="pymincut",
-    version="0.0.1",
+    version="0.0.2",
     author="Vikram Ramavarapu, Fabio Ayres",
     author_email="vikramr2@illinois.edu",
     description="Python wrapper for VieCut (https://github.com/VieCut/VieCut)",

@@ -198,6 +198,8 @@ MincutResult mincut(CGraph CG, std::string algorithm, std::string queue_type, bo
         }
     }
 
+    free(mc);
+
     return MincutResult(light, heavy, cut);
 }
 
