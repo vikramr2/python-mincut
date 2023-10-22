@@ -44,7 +44,9 @@ class PyGraph:
 
         # Edge case handler, balanced Viecut-Cactus fails on disconnected graphs
         if cut == 0 and balanced and algorithm == 'cactus':
-            return cg.connected_components() + [0]
+            components = cg.connected_components()
+            components = [list(map(lambda t: self.nodes[t], component)) for component in components]
+            return components + [0]
 
         # If not in the edge case, return the mincut partitions as normal
         heavy = list(map(lambda t: self.nodes[t], mc.get_heavy_partition()))
