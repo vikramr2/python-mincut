@@ -17,7 +17,6 @@ Python wrapper for [VieCut](https://github.com/VieCut/VieCut)
 - `python3.9` or higher
 - `cmake 3.2.0` or higher
 - `openmpi` and `gcc` of any version
-  - In our analysis, `openmpi 4.2.0` and `gcc 9.2.0` were used.
 
 ### UIUC EngrIT Systems
 
