@@ -9,6 +9,25 @@ Python wrapper for [VieCut](https://github.com/VieCut/VieCut)
   - [Usage](#usage)
     - [Basic Usage](#basic-usage)
     - [Balanced VieCut-Cactus Edge Case](#balanced-viecut-cactus-edge-case)
+   
+## Requirements
+
+- `python3.9` or higher
+- `cmake 3.2.0` or higher
+- `openmpi` and `gcc` of any version
+  - In our analysis, `openmpi 4.2.0` and `gcc 9.2.0` were used.
+
+### UIUC EngrIT Systems
+
+- These instructions are specific for users on an EngrIT cluster (such as Valhalla or the Campus Cluster) under the University of Illinois at Urbana-Champaign
+- You can get all the needed packages to run the pipeline via the following commands
+
+```bash
+module load python3/3.10.0
+module load cmake/3.25.1
+module load gcc
+module load openmpi
+```
 
 ## Compilation
 
