@@ -3,6 +3,8 @@
 Python wrapper for [VieCut](https://github.com/VieCut/VieCut)
 
 - [python-mincut](#python-mincut)
+  - [Requirements](#requirements)
+    - [UIUC EngrIT Systems](#uiuc-engrit-systems)
   - [Compilation](#compilation)
     - [via `pip` install](#via-pip-install)
     - [via Source Code](#via-source-code)
