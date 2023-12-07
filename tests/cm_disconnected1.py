@@ -1,9 +1,10 @@
-from pymincut.pygraph import PyGraph
-
 '''
 This case was originally failing in CM++, 
 so we're checking that this works
 '''
+
+from pymincut.pygraph import PyGraph
+
 
 def make_undir(edges):
     ''' Add reverse edges as well into the graph 

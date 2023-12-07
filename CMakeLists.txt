@@ -10,7 +10,7 @@ project(python_mincut)
 
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_SOURCE_DIR}/cmake")
 
-find_package(OpenMP REQUIRED)
+# find_package(OpenMP REQUIRED)
 find_package(MPI REQUIRED)
 include_directories(SYSTEM ${MPI_INCLUDE_PATH})
 
@@ -48,7 +48,7 @@ include_directories(
     ${Tcmalloc_INCLUDE_DIR}
 )
 
-set (CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -Wextra -g ${OpenMP_CXX_FLAGS}")
+set (CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -Wextra -g")
 set (CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -lpthread")
 set (CMAKE_CXX_FLAGS_RELEASE "-O3 -march=native -DNDEBUG")
 set (CMAKE_CXX_FLAGS_DEBUG "-g3 -march=native")
@@ -64,4 +64,4 @@ endif()
 add_subdirectory(extern/pybind11)
 
 pybind11_add_module(mincut_wrapper src/mincut_wrapper.cpp)
-target_link_libraries(mincut_wrapper PUBLIC ${LIBS} OpenMP::OpenMP_CXX)
+target_link_libraries(mincut_wrapper PUBLIC ${LIBS})

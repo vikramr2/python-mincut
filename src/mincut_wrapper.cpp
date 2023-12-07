@@ -1,5 +1,5 @@
-#include <ext/alloc_traits.h>
-#include <omp.h>
+//#include <ext/alloc_traits.h>
+//#include <omp.h>
 
 #include <algorithm>
 #include <cstdlib>
