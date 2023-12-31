@@ -11,8 +11,8 @@ project(python_mincut)
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_SOURCE_DIR}/cmake")
 
 # find_package(OpenMP REQUIRED)
-find_package(MPI REQUIRED)
-include_directories(SYSTEM ${MPI_INCLUDE_PATH})
+# find_package(MPI REQUIRED)
+# include_directories(SYSTEM ${MPI_INCLUDE_PATH})
 
 OPTION(RUN_TESTS "Compile and run tests" ON)
 
@@ -41,7 +41,7 @@ add_subdirectory(extern/VieCut/extlib/tlx)
 include_directories(
     extern/VieCut/app 
     extern/VieCut/lib             
-    /usr/include/mpi
+    # /usr/include/mpi
     extern/VieCut/extlib/growt
     extern/VieCut/extlib/tlx
     ${GUROBI_INCLUDE_DIR}
