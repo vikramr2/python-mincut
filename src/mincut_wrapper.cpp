@@ -108,13 +108,22 @@ private:
      *
      * DFS insertets nodes into the component set as it runs
      */
-    void DFS(int node, const std::vector<std::vector<int>>& adjList, std::vector<bool>& visited, std::unordered_set<int>& component) {
-        visited[node] = true;
-        component.insert(node);
+    void DFS(int startNode, const std::vector<std::vector<int>>& adjList, std::vector<bool>& visited, std::unordered_set<int>& component) {
+        std::stack<int> stack;
+        stack.push(startNode);
+        visited[startNode] = true;
+        component.insert(startNode);
 
-        for (int neighbor : adjList[node]) {
-            if (!visited[neighbor]) {
-                DFS(neighbor, adjList, visited, component);
+        while (!stack.empty()) {
+            int currentNode = stack.top();
+            stack.pop();
+
+            for (int neighbor : adjList[currentNode]) {
+                if (!visited[neighbor]) {
+                    stack.push(neighbor);
+                    visited[neighbor] = true;
+                    component.insert(neighbor);
+                }
             }
         }
     }
