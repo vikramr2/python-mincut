@@ -2,6 +2,3 @@
 	path = extern/pybind11
 	url = ../../pybind/pybind11
 	branch = stable
-[submodule "extern/VieCut"]
-	path = extern/VieCut
-	url = https://github.com/vikramr2/VieCut.git
