@@ -28,9 +28,11 @@ class PyGraph:
     def as_CGraph(self):
         ''' Conversion to CGraph to be used for mincut computation '''
         cgraph_nodes = list(range(len(self.nodes)))
-        cgraph_edges = list(
-            map(lambda t: (self.compact_map[t[0]], self.compact_map[t[1]]),
-                self.edges))
+        cgraph_edges = [
+            (min(self.compact_map[u], self.compact_map[v]),
+             max(self.compact_map[u], self.compact_map[v]))
+            for (u, v) in self.edges
+        ]
 
         return CGraph(cgraph_nodes, cgraph_edges)
 
