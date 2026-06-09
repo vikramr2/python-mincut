@@ -10,10 +10,11 @@ class PyGraph:
     edges: values in edge list still need to be in the node list
     '''
 
-    def __init__(self, nodes_=[], edges_=[]):
+    def __init__(self, nodes_=[], edges_=[], simple_ = True):
         self.nodes = nodes_
         self.edges = edges_
         self.compact_map = {k: v for v, k in enumerate(nodes_)}
+        self.edge_container = set if simple_ else list
 
     def add_node(self, n):
         self.nodes.append(n)
@@ -28,9 +29,11 @@ class PyGraph:
     def as_CGraph(self):
         ''' Conversion to CGraph to be used for mincut computation '''
         cgraph_nodes = list(range(len(self.nodes)))
-        cgraph_edges = list(
-            map(lambda t: (self.compact_map[t[0]], self.compact_map[t[1]]),
-                self.edges))
+        cgraph_edges = self.edge_container(
+            (min(self.compact_map[u], self.compact_map[v]),
+             max(self.compact_map[u], self.compact_map[v]))
+            for (u, v) in self.edges
+        )
 
         return CGraph(cgraph_nodes, cgraph_edges)
 
