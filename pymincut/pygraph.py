@@ -2,15 +2,15 @@ from mincut_wrapper import CGraph, mincut
 
 
 class PyGraph:
-    ''' Wrapper for CGraph to allow for generic node and edge lists
+    """Wrapper for CGraph to allow for generic node and edge lists
 
     Parameters
     ----------
     nodes: nodes can be of any type and do not need to be in order
     edges: values in edge list still need to be in the node list
-    '''
+    """
 
-    def __init__(self, nodes_=[], edges_=[], simple_ = True):
+    def __init__(self, nodes_=[], edges_=[], simple_=True):
         self.nodes = nodes_
         self.edges = edges_
         self.compact_map = {k: v for v, k in enumerate(nodes_)}
@@ -27,18 +27,20 @@ class PyGraph:
         self.edges.append((u, v))
 
     def as_CGraph(self):
-        ''' Conversion to CGraph to be used for mincut computation '''
+        """Conversion to CGraph to be used for mincut computation"""
         cgraph_nodes = list(range(len(self.nodes)))
         cgraph_edges = self.edge_container(
-            (min(self.compact_map[u], self.compact_map[v]),
-             max(self.compact_map[u], self.compact_map[v]))
+            (
+                min(self.compact_map[u], self.compact_map[v]),
+                max(self.compact_map[u], self.compact_map[v]),
+            )
             for (u, v) in self.edges
         )
 
-        return CGraph(cgraph_nodes, cgraph_edges)
+        return CGraph(cgraph_nodes, list(cgraph_edges))
 
     def mincut(self, algorithm, queue_implementation, balanced):
-        ''' Python wrapper function for C++ mincut '''
+        """Python wrapper function for C++ mincut"""
         cg = self.as_CGraph()
         mc = mincut(cg, algorithm, queue_implementation, balanced)
 
@@ -46,9 +48,12 @@ class PyGraph:
         cut = mc.get_cut_size()
 
         # Edge case handler, balanced Viecut-Cactus fails on disconnected graphs
-        if cut == 0 and balanced and algorithm == 'cactus':
+        if cut == 0 and balanced and algorithm == "cactus":
             components = cg.connected_components()
-            components = [list(map(lambda t: self.nodes[t], component)) for component in components]
+            components = [
+                list(map(lambda t: self.nodes[t], component))
+                for component in components
+            ]
             return components + [0]
 
         # If not in the edge case, return the mincut partitions as normal
